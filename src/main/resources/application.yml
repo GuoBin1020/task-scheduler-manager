@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=test
+    username: root
+    password: root
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+mybatis:
+  mapper-locations:
+    - classpath:com/example/demo/mapper/*.xml
+  type-aliases-package: com.example.demo.entity
