@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>任务调度中心</title>
+</head>
+<body>
+    <div style="text-align: center; margin: 0 auto; width: 1000px;">
+        <h1>任务列表</h1>
+        <table width="100%" border="1" cellspacing="1" cellpadding="0">
+            <tr>
+                <td>任务名称</td>
+                <td>任务组</td>
+                <td>任务延迟</td>
+                <td>任务可执行次数</td>
+                <td>任务周期时间</td>
+                <td>任务表达式</td>
+                <td>操作</td>
+            </tr>
+            <tr th:each="timedTask : ${timedTasks}">
+                <td th:text="${timedTask.getJobName()}"></td>
+                <td th:text="${timedTask.getJobGroup()}"></td>
+                <td th:text="${timedTask.getDelayTime()}"></td>
+                <td th:text="${timedTask.getExecuteCount()}"></td>
+                <td th:text="${timedTask.getIntervalTime()}"></td>
+                <td th:text="${timedTask.getCronExpression()}"></td>
+                <td>操作</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

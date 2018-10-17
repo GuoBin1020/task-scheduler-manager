@@ -27,7 +27,7 @@ public class GoodInfoService {
     private final GoodInfoRepository goodInfoRepository;
 
     @Autowired
-    public GoodInfoService(@Qualifier("VaeScheduler") Scheduler scheduler, GoodInfoRepository goodInfoRepository) {
+    public GoodInfoService(@Qualifier("Scheduler") Scheduler scheduler, GoodInfoRepository goodInfoRepository) {
         this.scheduler = scheduler;
         this.goodInfoRepository = goodInfoRepository;
     }

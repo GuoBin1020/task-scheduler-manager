@@ -73,10 +73,9 @@ public class QuartzConfiguration {
      * @param jobFactory 自定义配置任务工厂
      * @param dataSource 数据源实例
      * @return
-     * @throws Exception
      */
-    @Bean(destroyMethod = "destroy", autowire = Autowire.NO, name = "VaeScheduler")
-    public SchedulerFactoryBean schedulerFactoryBean(JobFactory jobFactory, DataSource dataSource) throws Exception {
+    @Bean(destroyMethod = "destroy", autowire = Autowire.NO, name = "Scheduler")
+    public SchedulerFactoryBean schedulerFactoryBean(JobFactory jobFactory, DataSource dataSource) {
         SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
         //将spring管理job自定义工厂交由调度器维护
         schedulerFactoryBean.setJobFactory(jobFactory);
