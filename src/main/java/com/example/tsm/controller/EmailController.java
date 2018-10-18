@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(path = "/job/email")
@@ -28,11 +29,46 @@ public class EmailController {
             emailService.addOrUpdateJob(request);
             model.addAttribute("name", "thymeleaf");
             model.addAttribute("result", "Success");
-            return "index";
+            return "redirect:/index";
         } catch (Exception e) {
             log.error("添加失败！！！", e);
             throw e;
         }
     }
 
+    @RequestMapping(path = "/pause", method = RequestMethod.GET)
+    public String pauseJob(@RequestParam("taskId") String taskId, Model model) throws Exception {
+        try {
+            emailService.pauseJob(taskId);
+            model.addAttribute("result", "Success");
+            return "redirect:/index";
+        } catch (Exception e) {
+            log.error("暂停失败！！！", e);
+            throw e;
+        }
+    }
+
+    @RequestMapping(path = "/resume", method = RequestMethod.GET)
+    public String resumeJob(@RequestParam("taskId") String taskId, Model model) throws Exception {
+        try {
+            emailService.resumeJob(taskId);
+            model.addAttribute("result", "Success");
+            return "redirect:/index";
+        } catch (Exception e) {
+            log.error("恢复失败！！！", e);
+            throw e;
+        }
+    }
+
+    @RequestMapping(path = "/delete", method = RequestMethod.GET)
+    public String deleteJob(@RequestParam("taskId") String taskId, Model model) throws Exception {
+        try {
+            emailService.deleteJob(taskId);
+            model.addAttribute("result", "Success");
+            return "redirect:/index";
+        } catch (Exception e) {
+            log.error("删除失败！！！", e);
+            throw e;
+        }
+    }
 }

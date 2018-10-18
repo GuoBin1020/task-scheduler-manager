@@ -1,6 +1,7 @@
 package com.example.tsm;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class TaskScheduleManagerApplicationTests {
      *
      * @throws Exception
      */
+    @Ignore
     @Test
     public void addGood() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/good/save")
@@ -62,6 +64,8 @@ public class TaskScheduleManagerApplicationTests {
      *
      * @throws Exception
      */
+    @Ignore
+    @Test
     public void addJob() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/job/email/add")
                 .param("senderId", "1")

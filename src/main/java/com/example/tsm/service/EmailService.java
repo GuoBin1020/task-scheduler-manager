@@ -1,6 +1,5 @@
 package com.example.tsm.service;
 
-import com.example.tsm.cache.TimedCountCache;
 import com.example.tsm.dao.SenderRepository;
 import com.example.tsm.dao.TimedTaskRepository;
 import com.example.tsm.entity.TimedTaskEntity;
@@ -46,8 +45,7 @@ public class EmailService {
 
     public void checkTaskExecuteCount(String taskId) throws Exception {
         TimedTaskEntity timedTaskEntity = timedTaskRepository.findById(taskId).orElse(null);
-        if ((TimedCountCache.get(taskId) != null && TimedCountCache.get(taskId) == 0) ||
-                (timedTaskEntity != null && timedTaskEntity.getExecuteCount() == 0)) {
+        if (timedTaskEntity != null && timedTaskEntity.getExecuteCount() == 0) {
             // 停止任务
             pauseJob(taskId);
         }
@@ -123,7 +121,7 @@ public class EmailService {
     public void resumeJob(String taskId) throws Exception {
         // 获得Task
         TimedTaskEntity timedTaskEntity = timedTaskRepository.findById(taskId).orElse(null);
-        if (timedTaskEntity != null && (TimedCountCache.get(taskId) == null || TimedCountCache.get(taskId) > 0)) {
+        if (timedTaskEntity != null && timedTaskEntity.getExecuteCount() > 0) {
             String jobName = timedTaskEntity.getJobName();
             String jobGroup = timedTaskEntity.getJobGroup();
             scheduler.resumeJob(JobKey.jobKey(jobName, jobGroup));
@@ -163,7 +161,7 @@ public class EmailService {
                 throw new Exception("间隔时间最少大于1秒（1000毫秒）！！！");
             }
         }
-        return CronScheduleBuilder.cronSchedule(cronExpression);
+        return CronScheduleBuilder.cronSchedule(cronExpression).withMisfireHandlingInstructionIgnoreMisfires();
     }
 
     // 生成表达式

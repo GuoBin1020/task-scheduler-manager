@@ -1,8 +1,6 @@
 package com.example.tsm.job;
 
-import com.example.tsm.cache.ContenxtAwareCache;
 import com.example.tsm.cache.SenderCache;
-import com.example.tsm.cache.TimedCountCache;
 import com.example.tsm.dao.TimedTaskRepository;
 import com.example.tsm.entity.SenderEntity;
 import com.example.tsm.entity.TimedTaskEntity;
@@ -81,7 +79,6 @@ public class SenderEmailTimer extends QuartzJobBean {
                 // 开始计数
                 timedTaskEntity.setExecuteCount(timedTaskEntity.getExecuteCount() - 1);
                 timedTaskRepository.saveAndFlush(timedTaskEntity);
-                TimedCountCache.put(timedTaskEntity.getTaskId(), timedTaskEntity.getExecuteCount());
             }
         }
 
