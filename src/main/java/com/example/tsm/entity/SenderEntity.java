@@ -22,6 +22,9 @@ public class SenderEntity {
     @Column(name = "protocol")
     private String protocol;
 
+    @Column(name = "nick_name")
+    private String nickName;
+
     @Column(name = "username")
     private String username;
 

@@ -1,20 +1,11 @@
 package com.example.tsm;
 
-import com.example.tsm.cache.ContenxtAwareCache;
-import com.example.tsm.cache.SenderCache;
-import com.example.tsm.dao.SenderRepository;
-import com.example.tsm.dao.TimedTaskRepository;
-import com.example.tsm.entity.SenderEntity;
-import com.example.tsm.service.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
-import java.util.List;
 
 @SpringBootApplication
 public class TaskScheduleManagerApplication {

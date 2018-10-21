@@ -23,7 +23,7 @@ public class EmailController {
         this.emailService = emailService;
     }
 
-    @RequestMapping(path = "/add", method = RequestMethod.POST)
+    @RequestMapping(path = "/add", method = RequestMethod.POST, headers = "application/json;charset=UTF-8")
     public String addJob(@RequestBody JobRequest request, Model model) throws Exception {
         try {
             emailService.addOrUpdateJob(request);
