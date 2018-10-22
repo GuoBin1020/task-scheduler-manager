@@ -6,10 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(path = "/job/email")
@@ -23,11 +20,17 @@ public class EmailController {
         this.emailService = emailService;
     }
 
-    @RequestMapping(path = "/add", method = RequestMethod.POST, headers = "application/json;charset=UTF-8")
-    public String addJob(@RequestBody JobRequest request, Model model) throws Exception {
+    /**
+     * 添加Job,使用thymeleaf模板不能使用@RequestBody注解，这个注解一般用于rest请求
+     * @param request 请求
+     * @param model model
+     * @return 跳转页面
+     * @throws Exception 异常
+     */
+    @RequestMapping(path = "/add", method = RequestMethod.POST)
+    public String addJob(@ModelAttribute JobRequest request, Model model) throws Exception {
         try {
             emailService.addOrUpdateJob(request);
-            model.addAttribute("name", "thymeleaf");
             model.addAttribute("result", "Success");
             return "redirect:/index";
         } catch (Exception e) {
