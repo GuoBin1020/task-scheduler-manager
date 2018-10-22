@@ -23,8 +23,9 @@
             <div class="form-group">
                 <label for="sender_id" class="col-sm-2 control-label">发送人</label>
                 <div class="col-sm-10">
-                    <select class="form-control" id="sender_id" th:value="*{senderId}">
-                        <option th:if="${senders==null||senders.size()==0}">没有添加任何发送人！！！</option>
+                    <select class="form-control" id="sender_id" name="senderId" th:value="*{senderId}">
+                        <option th:if="${senders==null||senders.size()==0}" th:value="-1">没有添加任何发送人！！！</option>
+
                         <option th:each="sender:${senders}" th:value="${sender.getSenderId()}"
                                 th:text="${sender.getNickName() + '(' + sender.getUsername()} + ')'"></option>
                     </select>
@@ -35,7 +36,7 @@
             <div class="form-group">
                 <label for="job_name" class="col-sm-2 control-label">任务名称</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="job_name" placeholder="请输入任务名称" th:value="*{jobName}"/>
+                    <input type="text" class="form-control" id="job_name" name="jobName" placeholder="请输入任务名称" th:value="*{jobName}"/>
                 </div>
             </div>
 
@@ -43,7 +44,7 @@
             <div class="form-group">
                 <label for="job_group" class="col-sm-2 control-label">任务组</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="job_group" placeholder="请输入任务组" th:value="*{jobGroup}">
+                    <input type="text" class="form-control" id="job_group" name="jobGroup" placeholder="请输入任务组" th:value="*{jobGroup}"/>
                 </div>
             </div>
 
@@ -53,7 +54,7 @@
                 <div class="col-sm-10">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" id="is_delay">是否延迟启动
+                            <input type="checkbox" id="is_delay"/>是否延迟启动
                         </label>
                     </div>
                 </div>
@@ -63,7 +64,8 @@
             <div class="form-group hidden">
                 <label for="delay_time" class="col-sm-2 control-label">延迟启动/秒</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="delay_time" placeholder="请输入延迟启动/秒" value="0" th:value="*{delayTime}">
+                    <input type="text" class="form-control" id="delay_time" name="delayTime" placeholder="请输入延迟启动/秒" value="0"
+                           th:value="*{delayTime}" />
                 </div>
             </div>
 
@@ -71,9 +73,10 @@
             <div class="form-group">
                 <label for="execute_count" class="col-sm-2 control-label">执行次数</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="execute_count" placeholder="请输入执行次数" value="∞" th:value="*{executeCount}">
+                    <input type="text" class="form-control" id="execute_count" name="executeCount" placeholder="请输入执行次数" value="∞"
+                           th:value="*{executeCount}" />
                 </div>
-                <button class="btn btn-default" id="default_count">∞</button>
+                <button class="btn btn-default" type="button" id="default_count">∞</button>
             </div>
 
             <!-- 定时方式 -->
@@ -95,7 +98,8 @@
             <div class="form-group show">
                 <label for="interval_time" class="col-sm-2 control-label">执行周期/秒</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="interval_time" placeholder="请输入执行周期/秒" th:value="*{intervalTime}">
+                    <input type="text" class="form-control" id="interval_time" name="intervalTime" placeholder="请输入执行周期/秒"
+                           th:value="*{intervalTime}">
                 </div>
             </div>
 
@@ -103,7 +107,8 @@
             <div class="form-group hide">
                 <label for="cron_expression" class="col-sm-2 control-label">表达式</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="cron_expression" placeholder="表达式" th:value="*{cronExpression}">
+                    <input type="text" class="form-control" id="cron_expression" name="cronExpression" placeholder="表达式"
+                           th:value="*{cronExpression}">
                 </div>
             </div>
 
@@ -111,15 +116,15 @@
             <div class="form-group">
                 <label for="subject" class="col-sm-2 control-label">邮件主题</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="subject" placeholder="邮件主题" th:value="*{subject}">
+                    <input type="text" class="form-control" id="subject" name="subject" placeholder="邮件主题" th:value="*{subject}">
                 </div>
             </div>
 
             <!-- 邮件接收人 -->
             <div class="form-group">
-                <label for="receives" class="col-sm-2 control-label">邮件接收人</label>
+                <label for="receivers" class="col-sm-2 control-label">邮件接收人</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="receives" placeholder="邮件接收人" th:value="*{receivers}">
+                    <input type="text" class="form-control" id="receivers" name="receivers" placeholder="邮件接收人" th:value="*{receivers}">
                 </div>
             </div>
 
@@ -127,34 +132,37 @@
             <div class="form-group">
                 <label for="context" class="col-sm-2 control-label">邮件内容</label>
                 <div class="col-sm-10">
-                    <textarea class="form-control" rows="3" id="context" placeholder="邮件内容" th:value="*{context}"></textarea>
+                    <textarea class="form-control" rows="3" id="context" name="context" placeholder="邮件内容"
+                              th:value="*{context}"></textarea>
                 </div>
             </div>
 
-            <!--&lt;!&ndash; 附件路径 &ndash;&gt;-->
-            <!--<div class="form-group">-->
-                <!--<label for="attachment_path" class="col-sm-2 control-label">附件路径</label>-->
-                <!--<div class="col-sm-10">-->
-                    <!--<input type="text" class="form-control" id="attachment_path" placeholder="附件路径" th:filed="*{attachmentPath}">-->
-                <!--</div>-->
-            <!--</div>-->
+            <!-- 附件路径 -->
+            <div class="form-group">
+                <label for="attachment_path" class="col-sm-2 control-label">附件路径</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="attachment_path" name="attachmentPath" placeholder="附件路径"
+                           th:value="*{attachmentPath}">
+                </div>
+            </div>
 
-            <!--&lt;!&ndash; 发送完后是否清除 &ndash;&gt;-->
-            <!--<div class="form-group">-->
-                <!--<label for="is_clear" class="col-sm-2 control-label">发送完后是否清除</label>-->
-                <!--<div class="col-sm-10">-->
-                    <!--<div class="checkbox">-->
-                        <!--<label>-->
-                            <!--<input type="checkbox" id="is_clear" th:filed="*{isClear}">发送完后是否清除-->
-                        <!--</label>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+            <!-- 发送完后是否清除 -->
+            <div class="form-group">
+                <label for="is_clear" class="col-sm-2 control-label">发送完后是否清除</label>
+                <div class="col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="is_clear" name="isClear" th:checked="*{isClear()}">发送完后是否清除
+                        </label>
+                    </div>
+                </div>
+            </div>
 
             <div class="form-group">
                 <div class="col-sm-12">
-                    <input type="submit" class="btn btn-primary" style="margin-left: 400px;margin-right: 50px;" value="创建">
-                    <button class="btn btn-default">取消</button>
+                    <input type="submit" class="btn btn-primary" style="margin-left: 400px;margin-right: 50px;"
+                           value="创建">
+                    <button class="btn btn-default" type="button">取消</button>
                 </div>
             </div>
 
@@ -166,7 +174,8 @@
 <script src="../static/js/jquery.js" th:src="@{/static/js/jquery.js}"></script>
 <!-- 包括所有已编译的插件 -->
 <script src="../static/js/bootstrap.min.js" th:src="@{/static/js/bootstrap.min.js}">
-<!-- 自定义js -->
-</script><script src="../static/js/bootstrap.min.js" th:src="@{/static/pagejs/create-job.js}"></script>
+    <!-- 自定义js -->
+</script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/static/pagejs/create-job.js}"></script>
 </body>
 </html>

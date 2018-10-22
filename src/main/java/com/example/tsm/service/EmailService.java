@@ -144,7 +144,8 @@ public class EmailService {
                 .newTrigger()
                 .withIdentity(request.getJobName(), request.getJobGroup())
                 .withSchedule(scheduleBuilder)
-                .startAt(new Date((System.currentTimeMillis() + request.getDelayTime())))
+                // 延迟启动
+                .startAt(new Date(System.currentTimeMillis() + (request.getDelayTime() * 1000)))
                 .build();
     }
 
@@ -154,11 +155,11 @@ public class EmailService {
         if (request.getCronExpression() != null && !request.getCronExpression().trim().isEmpty()) {
             cronExpression = request.getCronExpression();
         } else {
-            if (request.getIntervalTime() != null && request.getIntervalTime() > 1000) {
+            if (request.getIntervalTime() != null && request.getIntervalTime() >= 1) {
                 cronExpression = generateCron(request.getIntervalTime());
             } else {
-                log.error("间隔时间最少大于1秒（1000毫秒）！！！");
-                throw new Exception("间隔时间最少大于1秒（1000毫秒）！！！");
+                log.error("间隔时间最少为1秒！！！");
+                throw new Exception("间隔时间最少为1秒！！！");
             }
         }
         return CronScheduleBuilder.cronSchedule(cronExpression).withMisfireHandlingInstructionIgnoreMisfires();
@@ -166,18 +167,18 @@ public class EmailService {
 
     // 生成表达式
     private String generateCron(Long intervalTime) {
-        if (intervalTime / 1000 >= 365 * 24 * 60 * 60) {
-            return String.format("0 0 0 1 1 ? */%s", intervalTime / 1000 / (365 * 24 * 60 * 60));
-        } else if (intervalTime / 1000 >= 30 * 24 * 60 * 60) {
-            return String.format("0 0 0 1 */%s ?", intervalTime / 1000 / (30 * 24 * 60 * 60));
-        } else if (intervalTime / 1000 >= 24 * 60 * 60) {
-            return String.format("0 0 0 */%s * ?", intervalTime / 1000 / (24 * 60 * 60));
-        } else if (intervalTime / 1000 >= 60 * 60) {
-            return String.format("0 0 */%s * * ?", intervalTime / 1000 / (60 * 60));
-        } else if (intervalTime / 1000 >= 60) {
-            return String.format("0 */%s * * * ?", intervalTime / 1000 / 60);
+        if (intervalTime >= 365 * 24 * 60 * 60) {
+            return String.format("0 0 0 1 1 ? */%s", intervalTime / (365 * 24 * 60 * 60));
+        } else if (intervalTime >= 30 * 24 * 60 * 60) {
+            return String.format("0 0 0 1 */%s ?", intervalTime / (30 * 24 * 60 * 60));
+        } else if (intervalTime >= 24 * 60 * 60) {
+            return String.format("0 0 0 */%s * ?", intervalTime / (24 * 60 * 60));
+        } else if (intervalTime >= 60 * 60) {
+            return String.format("0 0 */%s * * ?", intervalTime / (60 * 60));
+        } else if (intervalTime >= 60) {
+            return String.format("0 */%s * * * ?", intervalTime / 60);
         } else {
-            return String.format("*/%s * * * * ?", intervalTime / 1000);
+            return String.format("*/%s * * * * ?", intervalTime);
         }
     }
 
