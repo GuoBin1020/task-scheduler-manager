@@ -36,6 +36,7 @@ public class SenderEmailTimer extends QuartzJobBean {
             log.error("获得JobRequest对象失败！！！");
             return;
         }
+        log.info("{}开始执行!!!", request.getTaskId());
         SenderEntity senderEntity = SenderCache.get(request.getSenderId());
         JavaMailSender javaMailSender = getJavaMailSender(request.getSenderId());
         if (javaMailSender == null) {
@@ -93,7 +94,7 @@ public class SenderEmailTimer extends QuartzJobBean {
         }
     }
 
-    private synchronized JavaMailSender getJavaMailSender(String senderId) {
+    private static synchronized JavaMailSender getJavaMailSender(String senderId) {
         JavaMailSenderImpl javaMailSender = senderMap.get(senderId);
         if (javaMailSender == null) {
             SenderEntity senderEntity = SenderCache.get(senderId);

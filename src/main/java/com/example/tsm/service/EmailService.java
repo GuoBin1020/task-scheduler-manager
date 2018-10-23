@@ -162,7 +162,8 @@ public class EmailService {
                 throw new Exception("间隔时间最少为1秒！！！");
             }
         }
-        return CronScheduleBuilder.cronSchedule(cronExpression).withMisfireHandlingInstructionIgnoreMisfires();
+        // 增加这个withMisfireHandlingInstructionDoNothing能防止任务恢复，即大量补充执行
+        return CronScheduleBuilder.cronSchedule(cronExpression).withMisfireHandlingInstructionDoNothing();
     }
 
     // 生成表达式
